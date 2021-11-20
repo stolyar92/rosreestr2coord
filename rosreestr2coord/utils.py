@@ -70,6 +70,8 @@ def make_request(url, with_proxy=False):
                 read = response.read()
             is_error = is_error_response(url, read)
             if is_error:
+                if is_error[1] == 500:
+                url = url + "&_ts=false"
                 raise Exception(is_error)
             return read
         except Exception as er:
@@ -123,7 +125,8 @@ def is_error_response(url, response):
         error = data.get('error')
         if error:
             message = error.get('message')
-            is_error = message if message else 'error'
+            code = error.get('code')
+            is_error = message, code if message else 'error'
     except Exception:
         pass
     return is_error
