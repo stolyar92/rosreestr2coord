@@ -72,7 +72,7 @@ def make_request(url, with_proxy=False):
             if is_error:
                 if is_error[1] == 500:
                     url = url + "&_ts=false"
-                    raise Exception(is_error)
+                raise Exception(is_error)
             return read
         except Exception as er:
             logger.error(er)
